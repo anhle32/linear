@@ -12,10 +12,10 @@ df = pd.read_csv("credit access.csv", encoding='latin-1')
 st.title("Hồi quy tuyến tính")
 st.write("## Dự báo giá trị vay vốn của nông hộ")
 
-uploaded_file = st.file_uploader("Choose a file", type=['csv'])
+uploaded_file = st.file_uploader("Nhập file dữ liệu vào đây", type=['csv'])
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file, encoding='latin-1')
-    df.to_csv("data.csv", index = False)
+    
 
 X = df.drop(columns=['giatri'])
 y = df['giatri']
@@ -38,8 +38,8 @@ rmse=mean_squared_error(y_test, yhat_test, squared=False)
 mae=mean_absolute_error(y_test, yhat_test)
 
 
-menu = ["Mục tiêu của mô hình", "Xây dựng mô hình", "Sử dụng mô hình để dự báo"]
-choice = st.sidebar.selectbox('Danh mục tính năng', menu)
+menu = ["Mục tiêu của mô hình", "giới thiệu về chi nhánh", "Xây dựng mô hình", "Sử dụng mô hình để dự báo"]
+choice = st.sidebar.selectbox('Danh mục', menu)
 
 if choice == 'Mục tiêu của mô hình':    
     st.subheader("Mục tiêu của mô hình")
@@ -47,19 +47,29 @@ if choice == 'Mục tiêu của mô hình':
     ###### Mô hình được xây dựng để dự báo giá trị vay vốn của nông hộ dựa trên các biến đặc điểm chủ hộ, điều kiện của nông hộ.
     """)  
     st.write("""###### Mô hình sử dụng thuật toán LinearRegression""")
+    st.write("mô hình ....")
     st.image("LSM.png")
     st.image("LSM_1.png")
+
+elif choice == 'giới thiệu về chi nhánh':
+    st.subheader("giới thiệu về chi nhánh")
+    st.write("##### 1. lịch sử hình thành agribank chi nhánh 3")
+    st.image("chinhanh.jpg")
 
 elif choice == 'Xây dựng mô hình':
     st.subheader("Xây dựng mô hình")
     st.write("##### 1. Hiển thị dữ liệu")
-    st.dataframe(df.head(3))
-    st.dataframe(df.tail(3))  
+    st.dataframe(df.head(10))
+    st.dataframe(df.tail(10))  
     
     st.write("##### 2. Trực quan hóa dữ liệu")
     u=st.text_input('Nhập biến muốn vẽ vào đây')
     fig1 = sns.regplot(data=df, x=u, y='giatri')    
     st.pyplot(fig1.figure)
+    
+    v=st.text_input('Nhập biến muốn vẽ vào đây')
+    fig2 = sns.regplot(data=df, x=v, y='giatri')    
+    st.pyplot(fig2.figure)
 
     st.write("##### 3. Build model...")
     
@@ -84,10 +94,10 @@ elif choice == 'Sử dụng mô hình để dự báo':
             # st.write(lines.columns)
             flag = True       
     if type=="Input":        
-        git = st.number_input('Insert giatri')
-        DT = st.number_input('Insert DT')
-        TN = st.number_input('Insert TN')
-        SPT = st.number_input('Insert SPT')
+        git = st.number_input('khai báo giá trị')
+        DT = st.number_input('khai báo diện tích')
+        TN = st.number_input('khai báo thu nhập')
+        SPT = st.number_input('khai báo số người phụ thuộc')
         GTC = st.number_input('Insert GTC')
         GD = st.number_input('Insert GD')
         TCH = st.number_input('Insert TCH')
